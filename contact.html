@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechStore | Contactez-nous</title>
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-color: #2563eb;
+        --primary-light: #3b82f6;
+        --bg-light: #f8fafc;
+        --bg-dark: #121212;
+        --card-dark: #1e293b;
+        --text-dark: #1f2937;
+        --text-light: #f8fafc;
+
+        --body-bg: #ffffff;
+        --body-text: var(--text-dark);
+        --card-bg: #ffffff;
+        --nav-bg: #ffffff;
+        --border-color: #e2e8f0;
+      }
+
+      body.dark-theme {
+        --body-bg: var(--bg-dark);
+        --body-text: var(--text-light);
+        --card-bg: var(--card-dark);
+        --nav-bg: #1a1a1a;
+        --border-color: #334155;
+      }
+
+      body {
+        background-color: var(--body-bg);
+        color: var(--body-text);
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Navbar */
+      .navbar {
+        background-color: var(--nav-bg) !important;
+        border-bottom: 1px solid var(--border-color);
+        transition:
+          background-color 0.3s,
+          border-color 0.3s;
+      }
+      .nav-link {
+        color: var(--body-text) !important;
+        font-weight: 500;
+      }
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--primary-color) !important;
+      }
+
+      /* Contact Cards & Map */
+      .contact-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        transition:
+          background-color 0.3s,
+          border-color 0.3s;
+      }
+      .info-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background-color: rgba(37, 99, 235, 0.1);
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+      }
+      .map-container {
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+        height: 350px;
+      }
+      .map-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      /* Inputs formulaire */
+      .form-control:focus,
+      .form-select:focus {
+        border-color: var(--primary-light);
+        box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Barre de Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top py-3">
+      <div class="container">
+        <a class="navbar-brand fw-bold fs-3 text-primary" href="index.html">
+          <i class="bi bi-cpu-fill me-2"></i>TechStore
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Accueil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="produits.html">Catalogue</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="contact.html">Contact</a>
+            </li>
+          </ul>
+          <div class="d-flex align-items-center gap-3">
+            <button
+              id="themeToggle"
+              class="btn btn-link text-decoration-none p-0"
+              aria-label="Changer de thème"
+            >
+              <i
+                id="themeIcon"
+                class="bi bi-moon-fill fs-4 text-dark"
+                style="color: var(--body-text) !important"
+              ></i>
+            </button>
+            <a
+              href="panier.html"
+              class="btn btn-outline-primary position-relative px-3 py-2 rounded-pill"
+            >
+              <i class="bi bi-bag-fill me-1"></i> Panier
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count d-none"
+                >0</span
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- En-tête de la page -->
+    <div
+      class="bg-light py-4 border-bottom mb-5"
+      style="background-color: var(--bg-light) !important"
+    >
+      <div class="container text-center text-lg-start">
+        <h1 class="fw-bold text-dark mb-1">Contactez-nous</h1>
+        <p class="text-muted mb-0">
+          Une question ou une suggestion ? Notre équipe est à votre écoute.
+        </p>
+      </div>
+    </div>
+
+    <!-- Conteneur Principal -->
+    <main class="container flex-grow-1 mb-5">
+      <div class="row g-4">
+        <!-- Informations de contact & Carte (Gauche) -->
+        <div class="col-lg-5">
+          <div class="contact-card p-4 shadow-sm mb-4">
+            <h4 class="fw-bold mb-4">Nos Coordonnées</h4>
+
+            <!-- Adresse -->
+            <div class="d-flex align-items-start gap-3 mb-4">
+              <div class="info-icon flex-shrink-0">
+                <i class="bi bi-geo-alt-fill"></i>
+              </div>
+              <div>
+                <h6 class="fw-bold mb-1">Adresse de la boutique</h6>
+                <p class="text-muted mb-0">Avenue Steinmetz, Cotonou, Bénin</p>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="d-flex align-items-start gap-3 mb-4">
+              <div class="info-icon flex-shrink-0">
+                <i class="bi bi-envelope-fill"></i>
+              </div>
+              <div>
+                <h6 class="fw-bold mb-1">Adresse email</h6>
+                <p class="text-muted mb-0">contact@laurentfagnihoun.dev</p>
+              </div>
+            </div>
+
+            <!-- Téléphone -->
+            <div class="d-flex align-items-start gap-3">
+              <div class="info-icon flex-shrink-0">
+                <i class="bi bi-telephone-fill"></i>
+              </div>
+              <div>
+                <h6 class="fw-bold mb-1">Téléphone de l'administration</h6>
+                <p class="text-muted mb-0">+229 01 90 00 00 00</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Carte Interactive (OpenStreetMap) -->
+          <div class="map-container shadow-sm">
+            <!-- Iframe ciblant Cotonou, Bénin -->
+            <iframe
+              src="https://www.openstreetmap.org/export/embed.html?bbox=2.3923%2C6.3473%2C2.4507%2C6.3813&amp;layer=mapnik&amp;marker=6.3643%2C2.4215"
+              allowfullscreen=""
+              loading="lazy"
+            >
+            </iframe>
+          </div>
+        </div>
+
+        <!-- Formulaire de contact (Droite) -->
+        <div class="col-lg-7">
+          <div class="contact-card p-4 p-md-5 shadow-sm h-100">
+            <h4 class="fw-bold mb-2">Envoyez-nous un message</h4>
+            <p class="text-muted mb-4">
+              Remplissez le formulaire ci-dessous. Nous vous répondrons sous 24
+              à 48 heures ouvrées.
+            </p>
+
+            <!-- Alert de succès (Masquée par défaut) -->
+            <div
+              id="contact-success-alert"
+              class="alert alert-success d-none mb-4 py-3"
+              role="alert"
+            >
+              <div class="d-flex gap-2">
+                <i class="bi bi-check-circle-fill fs-5"></i>
+                <div>
+                  <h6 class="alert-heading fw-bold mb-1">
+                    Message envoyé avec succès !
+                  </h6>
+                  <p class="mb-0 small">
+                    Merci de nous avoir contacté. Notre équipe de démonstration
+                    technique a bien reçu votre simulation.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <form id="contactForm" class="needs-validation" novalidate>
+              <div class="row g-3">
+                <!-- Nom -->
+                <div class="col-md-6">
+                  <label for="nom" class="form-label fw-semibold small"
+                    >Nom complet</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control rounded-3 py-2"
+                    id="nom"
+                    placeholder="Ex: Jean Dupont"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Veuillez renseigner votre nom complet.
+                  </div>
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6">
+                  <label for="email" class="form-label fw-semibold small"
+                    >Adresse email</label
+                  >
+                  <input
+                    type="email"
+                    class="form-control rounded-3 py-2"
+                    id="email"
+                    placeholder="Ex: jean.dupont@email.com"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    Veuillez renseigner une adresse email valide.
+                  </div>
+                </div>
+
+                <!-- Sujet -->
+                <div class="col-12">
+                  <label for="sujet" class="form-label fw-semibold small"
+                    >Objet du message</label
+                  >
+                  <select
+                    class="form-select rounded-3 py-2"
+                    id="sujet"
+                    required
+                  >
+                    <option value="" disabled selected>
+                      Choisissez une option...
+                    </option>
+                    <option value="Suivi de commande">Suivi de commande</option>
+                    <option value="Service Après-Vente (SAV)">
+                      Service Après-Vente (SAV)
+                    </option>
+                    <option value="Partenariat / Affiliation">
+                      Demande d'information générale
+                    </option>
+                    <option value="Bug technique">
+                      Signaler un bug technique
+                    </option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Veuillez sélectionner le sujet de votre message.
+                  </div>
+                </div>
+
+                <!-- Message -->
+                <div class="col-12">
+                  <label for="message" class="form-label fw-semibold small"
+                    >Votre message</label
+                  >
+                  <textarea
+                    class="form-control rounded-3"
+                    id="message"
+                    rows="6"
+                    placeholder="Rédigez votre message ici..."
+                    required
+                  ></textarea>
+                  <div class="invalid-feedback">
+                    Veuillez rédiger votre message.
+                  </div>
+                </div>
+
+                <!-- Bouton envoyer -->
+                <div class="col-12 mt-4">
+                  <button
+                    type="submit"
+                    class="btn btn-primary rounded-pill w-100 py-3 fw-bold"
+                  >
+                    <i class="bi bi-send-fill me-2"></i>Envoyer le message
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Pied de page -->
+    <footer class="bg-dark text-white pt-5 pb-4 mt-auto">
+      <div class="container">
+        <div class="row g-4 mb-4">
+          <div class="col-lg-4">
+            <h5 class="fw-bold text-primary mb-3">
+              <i class="bi bi-cpu-fill me-2"></i>TechStore
+            </h5>
+            <p class="text-muted small">
+              TechStore est une boutique fictive ultra-moderne conçue comme
+              démonstrateur technique pour la présentation de projets de fin de
+              formation.
+            </p>
+          </div>
+          <div class="col-md-4 col-lg-2 offset-lg-2">
+            <h6 class="fw-bold mb-3">Plan du site</h6>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <a
+                  href="index.html"
+                  class="text-muted text-decoration-none small"
+                  >Accueil</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="produits.html"
+                  class="text-muted text-decoration-none small"
+                  >Catalogue</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="contact.html"
+                  class="text-muted text-decoration-none small"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <h6 class="fw-bold mb-3">Informations de contact</h6>
+            <p class="text-muted small mb-2">
+              <i class="bi bi-geo-alt me-2"></i> Avenue Steinmetz, Cotonou,
+              Bénin
+            </p>
+            <p class="text-muted small mb-2">
+              <i class="bi bi-envelope me-2"></i> contact@laurentfagnihoun.dev
+            </p>
+          </div>
+        </div>
+        <hr class="border-secondary" />
+        <div class="text-center text-muted small">
+          &copy; 2026 - Laurent FAGNIHOUN • Bénin.
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts obligatoires -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/cart.js"></script>
+
+    <!-- Logique JavaScript de Contact et Mode Sombre -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // S'assurer que le badge du panier est à jour
+        if (typeof updateCartBadge === "function") {
+          updateCartBadge();
+        }
+
+        // --- GESTION DU FORMULAIRE ---
+        const form = document.getElementById("contactForm");
+        const successAlert = document.getElementById("contact-success-alert");
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          if (!form.checkValidity()) {
+            e.stopPropagation();
+            form.classList.add("was-validated");
+          } else {
+            // Masquer les messages d'erreur et vider le formulaire
+            form.classList.remove("was-validated");
+
+            // Simuler l'envoi en affichant l'alerte verte de succès
+            successAlert.classList.remove("d-none");
+            form.reset();
+
+            // Remonter vers l'alerte pour qu'elle soit bien visible
+            successAlert.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+
+            // Optionnel : masquer l'alerte après 10 secondes
+            setTimeout(() => {
+              successAlert.classList.add("d-none");
+            }, 10000);
+          }
+        });
+
+        // --- GESTION DU MODE SOMBRE ---
+        const themeToggle = document.getElementById("themeToggle");
+        const themeIcon = document.getElementById("themeIcon");
+        const body = document.body;
+
+        if (localStorage.getItem("theme") === "dark") {
+          body.classList.add("dark-theme");
+          themeIcon.className = "bi bi-sun-fill fs-4 text-warning";
+        }
+
+        themeToggle.addEventListener("click", () => {
+          body.classList.toggle("dark-theme");
+          if (body.classList.contains("dark-theme")) {
+            localStorage.setItem("theme", "dark");
+            themeIcon.className = "bi bi-sun-fill fs-4 text-warning";
+          } else {
+            localStorage.setItem("theme", "light");
+            themeIcon.className = "bi bi-moon-fill fs-4 text-dark";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

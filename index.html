@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechStore | Boutique High-Tech Premium</title>
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-color: #2563eb;
+        --primary-light: #3b82f6;
+        --bg-light: #f8fafc;
+        --bg-dark: #121212;
+        --card-dark: #1e293b;
+        --text-dark: #1f2937;
+        --text-light: #f8fafc;
+
+        --body-bg: #ffffff;
+        --body-text: var(--text-dark);
+        --card-bg: #ffffff;
+        --nav-bg: #ffffff;
+        --border-color: #e2e8f0;
+      }
+
+      body.dark-theme {
+        --body-bg: var(--bg-dark);
+        --body-text: var(--text-light);
+        --card-bg: var(--card-dark);
+        --nav-bg: #1a1a1a;
+        --border-color: #334155;
+      }
+
+      body {
+        background-color: var(--body-bg);
+        color: var(--body-text);
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Navbar */
+      .navbar {
+        background-color: var(--nav-bg) !important;
+        border-bottom: 1px solid var(--border-color);
+        transition:
+          background-color 0.3s,
+          border-color 0.3s;
+      }
+      .nav-link {
+        color: var(--body-text) !important;
+        font-weight: 500;
+      }
+      .nav-link:hover,
+      .nav-link.active {
+        color: var(--primary-color) !important;
+      }
+
+      /* Hero Banner */
+      .hero-section {
+        background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        border-radius: 24px;
+        overflow: hidden;
+      }
+      body.dark-theme .hero-section {
+        background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+      }
+
+      /* Cards de produits */
+      .product-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease,
+          border-color 0.3s;
+        overflow: hidden;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow:
+          0 20px 25px -5px rgba(0, 0, 0, 0.05),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border-color: var(--primary-light);
+      }
+      .product-card .img-container {
+        height: 220px;
+        background-color: #f8fafc;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      body.dark-theme .product-card .img-container {
+        background-color: #0f172a;
+      }
+      .product-card img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        transition: transform 0.5s ease;
+      }
+      .product-card:hover img {
+        transform: scale(1.08);
+      }
+      .badge-discount {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background-color: #ef4444;
+        color: white;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        z-index: 2;
+      }
+
+      /* Bouton Retour en Haut */
+      #scrollTopBtn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 99;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+      #scrollTopBtn:hover {
+        background-color: var(--primary-light);
+        transform: translateY(-3px);
+      }
+
+      /* Témoignages style Stripe */
+      .testimonial-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        transition: border-color 0.3s;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Barre de Navigation Fixe -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top py-3">
+      <div class="container">
+        <a class="navbar-brand fw-bold fs-3 text-primary" href="index.html">
+          <i class="bi bi-cpu-fill me-2"></i>TechStore
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" href="index.html">Accueil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="produits.html">Catalogue</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+          </ul>
+          <div class="d-flex align-items-center gap-3">
+            <!-- Commutateur Mode Sombre -->
+            <button
+              id="themeToggle"
+              class="btn btn-link text-decoration-none p-0"
+              aria-label="Changer de thème"
+            >
+              <i
+                id="themeIcon"
+                class="bi bi-moon-fill fs-4 text-dark"
+                style="color: var(--body-text) !important"
+              ></i>
+            </button>
+            <!-- Panier -->
+            <a
+              href="panier.html"
+              class="btn btn-outline-primary position-relative px-3 py-2 rounded-pill"
+            >
+              <i class="bi bi-bag-fill me-1"></i> Panier
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count d-none"
+                >0</span
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Section Héros / Présentation -->
+    <header class="container my-5">
+      <div class="hero-section p-5 shadow-sm">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6">
+            <span class="badge bg-primary px-3 py-2 rounded-pill mb-3"
+              >Nouveautés 2026</span
+            >
+            <h1 class="display-4 fw-bold mb-4" style="line-height: 1.15">
+              L'innovation technologique à votre portée
+            </h1>
+            <p class="lead mb-4 opacity-75">
+              Découvrez notre catalogue exclusif d'équipements premium. Conçus
+              pour les passionnés, les professionnels et les créateurs de
+              demain.
+            </p>
+            <div class="d-flex gap-3 flex-wrap">
+              <a
+                href="produits.html"
+                class="btn btn-primary btn-lg px-4 py-3 rounded-pill fw-semibold shadow-sm"
+                >Explorer le catalogue</a
+              >
+              <a
+                href="#popular-products"
+                class="btn btn-outline-secondary btn-lg px-4 py-3 rounded-pill fw-semibold"
+                >Voir les best-sellers</a
+              >
+            </div>
+          </div>
+          <div class="col-lg-6 text-center">
+            <img
+              src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80"
+              alt="Casque Premium"
+              class="img-fluid rounded-4 shadow-lg"
+              style="max-height: 400px; object-fit: cover"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Catégories Rapides -->
+    <section class="container py-4">
+      <div class="row g-3 text-center">
+        <div class="col-6 col-md-4 col-lg-2 offset-lg-1">
+          <a href="produits.html?cat=Smartphones" class="text-decoration-none">
+            <div class="p-3 border rounded-4 bg-light text-dark h-100">
+              <i class="bi bi-phone fs-2 text-primary"></i>
+              <p class="mb-0 mt-2 fw-semibold">Smartphones</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <a href="produits.html?cat=Ordinateurs" class="text-decoration-none">
+            <div class="p-3 border rounded-4 bg-light text-dark h-100">
+              <i class="bi bi-laptop fs-2 text-primary"></i>
+              <p class="mb-0 mt-2 fw-semibold">Ordinateurs</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <a href="produits.html?cat=Casques" class="text-decoration-none">
+            <div class="p-3 border rounded-4 bg-light text-dark h-100">
+              <i class="bi bi-headphones fs-2 text-primary"></i>
+              <p class="mb-0 mt-2 fw-semibold">Casques</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <a href="produits.html?cat=Montres" class="text-decoration-none">
+            <div class="p-3 border rounded-4 bg-light text-dark h-100">
+              <i class="bi bi-smartwatch fs-2 text-primary"></i>
+              <p class="mb-0 mt-2 fw-semibold">Montres</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2">
+          <a href="produits.html?cat=Accessoires" class="text-decoration-none">
+            <div class="p-3 border rounded-4 bg-light text-dark h-100">
+              <i class="bi bi-plug fs-2 text-primary"></i>
+              <p class="mb-0 mt-2 fw-semibold">Accessoires</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Produits Populaires -->
+    <section id="popular-products" class="container py-5">
+      <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+          <h2 class="fw-bold mb-1">Sélection du moment</h2>
+          <p class="text-muted mb-0">
+            Les articles les plus demandés cette semaine
+          </p>
+        </div>
+        <a
+          href="produits.html"
+          class="btn btn-link text-decoration-none fw-semibold"
+          >Voir tout le catalogue <i class="bi bi-arrow-right"></i
+        ></a>
+      </div>
+
+      <div class="row g-4" id="products-grid">
+        <!-- Injecté dynamiquement par JavaScript -->
+      </div>
+    </section>
+
+    <!-- Section Témoignages (Design Premium) -->
+    <section
+      class="bg-light py-5 border-top border-bottom my-5"
+      style="background-color: var(--bg-light) !important"
+    >
+      <div class="container py-4">
+        <h2 class="text-center fw-bold mb-1 text-dark">
+          Ce que disent nos clients
+        </h2>
+        <p class="text-muted text-center mb-5">
+          La satisfaction de nos utilisateurs est notre priorité absolue.
+        </p>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="testimonial-card p-4 h-100 shadow-sm">
+              <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning"></i>
+              </div>
+              <p class="text-muted mb-4">
+                "Le MacBook Pro commandé est arrivé en 48 heures seulement.
+                Châssis impeccable et performances monstrueuses pour mes projets
+                web."
+              </p>
+              <div class="d-flex align-items-center">
+                <div
+                  class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold"
+                  style="width: 45px; height: 45px"
+                >
+                  AM
+                </div>
+                <div class="ms-3">
+                  <h6 class="mb-0 fw-bold">Amadou M.</h6>
+                  <small class="text-muted">Développeur Freelance</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="testimonial-card p-4 h-100 shadow-sm">
+              <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning"></i>
+              </div>
+              <p class="text-muted mb-4">
+                "Service client réactif. J'avais une question sur la
+                compatibilité du chargeur Anker, j'ai reçu une réponse claire en
+                quelques minutes."
+              </p>
+              <div class="d-flex align-items-center">
+                <div
+                  class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center fw-bold"
+                  style="width: 45px; height: 45px"
+                >
+                  SD
+                </div>
+                <div class="ms-3">
+                  <h6 class="mb-0 fw-bold">Sophie D.</h6>
+                  <small class="text-muted">Designer Graphique</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="testimonial-card p-4 h-100 shadow-sm">
+              <div class="d-flex align-items-center mb-3">
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning me-1"></i>
+                <i class="bi bi-star-fill text-warning"></i>
+              </div>
+              <p class="text-muted mb-4">
+                "Les AirPods Max sont fantastiques ! La réduction de bruit est
+                bluffante et la boîte d'emballage ultra soignée. Je recommande à
+                100%."
+              </p>
+              <div class="d-flex align-items-center">
+                <div
+                  class="bg-dark text-white rounded-circle d-flex align-items-center justify-content-center fw-bold"
+                  style="width: 45px; height: 45px"
+                >
+                  KB
+                </div>
+                <div class="ms-3">
+                  <h6 class="mb-0 fw-bold">Koffi B.</h6>
+                  <small class="text-muted">Créateur de Contenu</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pied de page -->
+    <footer class="bg-dark text-white pt-5 pb-4 mt-auto">
+      <div class="container">
+        <div class="row g-4 mb-4">
+          <div class="col-lg-4">
+            <h5 class="fw-bold text-primary mb-3">
+              <i class="bi bi-cpu-fill me-2"></i>TechStore
+            </h5>
+            <p class="text-muted small">
+              TechStore est une boutique fictive ultra-moderne conçue comme
+              démonstrateur technique pour la présentation de projets de fin de
+              formation.
+            </p>
+          </div>
+          <div class="col-md-4 col-lg-2 offset-lg-2">
+            <h6 class="fw-bold mb-3">Plan du site</h6>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <a
+                  href="index.html"
+                  class="text-muted text-decoration-none small"
+                  >Accueil</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="produits.html"
+                  class="text-muted text-decoration-none small"
+                  >Catalogue</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="contact.html"
+                  class="text-muted text-decoration-none small"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <h6 class="fw-bold mb-3">Informations de contact</h6>
+            <p class="text-muted small mb-2">
+              <i class="bi bi-geo-alt me-2"></i> EIG Bénin, Cotonou
+            </p>
+            <p class="text-muted small mb-2">
+              <i class="bi bi-envelope me-2"></i> contact@laurentfagnihoun.dev
+            </p>
+          </div>
+        </div>
+        <hr class="border-secondary" />
+        <div class="text-center text-muted small">
+          &copy; 2026 - Laurent FAGNIHOUN • Démonstration Portfolio EIG Bénin.
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bouton Retour en Haut -->
+    <button id="scrollTopBtn" title="Retourner en haut">
+      <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Scripts obligatoires -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+
+    <!-- Code de rendu dynamique des produits sur l'accueil -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // S'assurer que le badge du panier est à jour
+        if (typeof updateCartBadge === "function") {
+          updateCartBadge();
+        }
+
+        // --- GESTION DU FORMULAIRE AVEC FORMSPREE ---
+        const form = document.getElementById("contactForm");
+        const successAlert = document.getElementById("contact-success-alert");
+
+        // /!\ REMPLACEZ CETTE URL PAR CELLE FOURNIE PAR FORMSPREE /!\
+        const formspreeUrl = "https://formspree.io/f/votre_identifiant_unique";
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          if (!form.checkValidity()) {
+            e.stopPropagation();
+            form.classList.add("was-validated");
+            return;
+          }
+
+          // Récupération du bouton pour montrer un état de chargement
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const originalBtnText = submitBtn.innerHTML;
+          submitBtn.disabled = true;
+          submitBtn.innerHTML =
+            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Envoi en cours...';
+
+          // Préparation des données du formulaire
+          const formData = {
+            nom: document.getElementById("nom").value,
+            email: document.getElementById("email").value,
+            sujet: document.getElementById("sujet").value,
+            message: document.getElementById("message").value,
+          };
+
+          try {
+            // Envoi des données à Formspree
+            const response = await fetch(formspreeUrl, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+              // Succès : on affiche l'alerte verte et on réinitialise le formulaire
+              form.classList.remove("was-validated");
+              successAlert.classList.remove("d-none");
+              form.reset();
+
+              successAlert.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            } else {
+              alert(
+                "Une erreur est survenue lors de l'envoi. Veuillez réessayer.",
+              );
+            }
+          } catch (error) {
+            console.error("Erreur:", error);
+            alert(
+              "Impossible de contacter le serveur d'envoi. Vérifiez votre connexion.",
+            );
+          } finally {
+            // Restauration du bouton
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+          }
+        });
+
+        // --- GESTION DU MODE SOMBRE ---
+        const themeToggle = document.getElementById("themeToggle");
+        const themeIcon = document.getElementById("themeIcon");
+        const body = document.body;
+
+        if (localStorage.getItem("theme") === "dark") {
+          body.classList.add("dark-theme");
+          themeIcon.className = "bi bi-sun-fill fs-4 text-warning";
+        }
+
+        themeToggle.addEventListener("click", () => {
+          body.classList.toggle("dark-theme");
+          if (body.classList.contains("dark-theme")) {
+            localStorage.setItem("theme", "dark");
+            themeIcon.className = "bi bi-sun-fill fs-4 text-warning";
+          } else {
+            localStorage.setItem("theme", "light");
+            themeIcon.className = "bi bi-moon-fill fs-4 text-dark";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

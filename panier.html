@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechStore | Mon Panier</title>
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-color: #2563eb;
+        --primary-light: #3b82f6;
+        --bg-light: #f8fafc;
+        --bg-dark: #121212;
+        --card-dark: #1e293b;
+        --text-dark: #1f2937;
+        --text-light: #f8fafc;
+
+        --body-bg: #ffffff;
+        --body-text: var(--text-dark);
+        --card-bg: #ffffff;
+        --nav-bg: #ffffff;
+        --border-color: #e2e8f0;
+      }
+
+      body.dark-theme {
+        --body-bg: var(--bg-dark);
+        --body-text: var(--text-light);
+        --card-bg: var(--card-dark);
+        --nav-bg: #1a1a1a;
+        --border-color: #334155;
+      }
+
+      body {
+        background-color: var(--body-bg);
+        color: var(--body-text);
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Navbar */
+      .navbar {
+        background-color: var(--nav-bg) !important;
+        border-bottom: 1px solid var(--border-color);
+        transition:
+          background-color 0.3s,
+          border-color 0.3s;
+      }
+      .nav-link {
+        color: var(--body-text) !important;
+        font-weight: 500;
+      }
+      .nav-link:hover {
+        color: var(--primary-color) !important;
+      }
+
+      /* Liste panier */
+      .cart-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        transition:
+          background-color 0.3s,
+          border-color 0.3s;
+      }
+      .cart-item {
+        border-bottom: 1px solid var(--border-color);
+        padding: 20px 0;
+        transition: border-color 0.3s;
+      }
+      .cart-item:last-child {
+        border-bottom: none;
+      }
+      .cart-item-img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        background-color: #f8fafc;
+        border-radius: 8px;
+        padding: 5px;
+      }
+      body.dark-theme .cart-item-img {
+        background-color: #0f172a;
+      }
+
+      /* Recap Card */
+      .summary-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 24px;
+      }
+
+      /* inputs quantité */
+      .quantity-control {
+        max-width: 120px;
+      }
+      .quantity-control button {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+      .quantity-control input {
+        text-align: center;
+        border: none;
+        background: transparent;
+        color: var(--body-text);
+        font-weight: 600;
+        width: 40px;
+      }
+      .quantity-control input:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Barre de Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top py-3">
+      <div class="container">
+        <a class="navbar-brand fw-bold fs-3 text-primary" href="index.html">
+          <i class="bi bi-cpu-fill me-2"></i>TechStore
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNavbar"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Accueil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="produits.html">Catalogue</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+          </ul>
+          <div class="d-flex align-items-center gap-3">
+            <button
+              id="themeToggle"
+              class="btn btn-link text-decoration-none p-0"
+              aria-label="Changer de thème"
+            >
+              <i
+                id="themeIcon"
+                class="bi bi-moon-fill fs-4 text-dark"
+                style="color: var(--body-text) !important"
+              ></i>
+            </button>
+            <a
+              href="panier.html"
+              class="btn btn-primary position-relative px-3 py-2 rounded-pill"
+            >
+              <i class="bi bi-bag-fill me-1"></i> Panier
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count d-none"
+                >0</span
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- En-tête de la page -->
+    <div
+      class="bg-light py-4 border-bottom mb-5"
+      style="background-color: var(--bg-light) !important"
+    >
+      <div class="container text-center text-lg-start">
+        <h1 class="fw-bold text-dark mb-1">Mon Panier</h1>
+        <p class="text-muted mb-0">
+          Gérez vos articles avant de finaliser votre commande.
+        </p>
+      </div>
+    </div>
+
+    <!-- Conteneur Principal -->
+    <main class="container flex-grow-1 mb-5">
+      <!-- Écran de Panier Vide -->
+      <div id="empty-cart-view" class="text-center py-5 d-none">
+        <div class="mb-4">
+          <i class="bi bi-bag-x text-muted" style="font-size: 5rem"></i>
+        </div>
+        <h2 class="fw-bold">Votre panier est vide</h2>
+        <p class="text-muted col-md-6 mx-auto mb-4">
+          Il semblerait que vous n'ayez pas encore ajouté de produits. Explorez
+          notre catalogue pour y dénicher les meilleures opportunités tech.
+        </p>
+        <a
+          href="produits.html"
+          class="btn btn-primary rounded-pill px-4 py-2 fw-semibold"
+        >
+          Découvrir nos produits
+        </a>
+      </div>
+
+      <!-- Écran de Panier Actif -->
+      <div id="active-cart-view" class="row g-4 d-none">
+        <!-- Liste des articles (Gauche) -->
+        <div class="col-lg-8">
+          <div class="cart-card p-4 shadow-sm mb-4">
+            <div
+              class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3"
+            >
+              <h5 class="fw-bold mb-0">Articles dans le panier</h5>
+              <button
+                class="btn btn-outline-danger btn-sm rounded-pill"
+                onclick="clearCart()"
+              >
+                <i class="bi bi-trash me-1"></i> Vider le panier
+              </button>
+            </div>
+
+            <div id="cart-items-container">
+              <!-- Injecté dynamiquement par JavaScript -->
+            </div>
+          </div>
+
+          <a
+            href="produits.html"
+            class="btn btn-link text-decoration-none fw-semibold p-0 text-primary"
+          >
+            <i class="bi bi-arrow-left me-2"></i>Continuer mes achats
+          </a>
+        </div>
+
+        <!-- Récapitulatif (Droite) -->
+        <div class="col-lg-4">
+          <div
+            class="summary-card shadow-sm position-sticky"
+            style="top: 100px"
+          >
+            <h5 class="fw-bold mb-4">Récapitulatif de la commande</h5>
+
+            <div class="d-flex justify-content-between mb-3">
+              <span class="text-muted">Sous-total</span>
+              <span class="fw-semibold" id="summary-subtotal">0,00 €</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+              <span class="text-muted">Livraison</span>
+              <span class="text-success fw-semibold" id="summary-shipping"
+                >Gratuit</span
+              >
+            </div>
+
+            <hr class="border-secondary my-3" />
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <span class="fw-bold fs-5">Total TTC</span>
+              <span class="fw-bold fs-4 text-primary" id="summary-total"
+                >0,00 €</span
+              >
+            </div>
+
+            <button
+              class="btn btn-primary w-100 py-3 rounded-pill fw-bold mb-3"
+              onclick="checkout()"
+            >
+              Passer à la caisse
+            </button>
+
+            <div class="text-center text-muted small">
+              <i class="bi bi-shield-lock-fill me-1 text-success"></i> Paiement
+              100% sécurisé et crypté
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Pied de page -->
+    <footer class="bg-dark text-white pt-5 pb-4 mt-auto">
+      <div class="container">
+        <div class="row g-4 mb-4">
+          <div class="col-lg-4">
+            <h5 class="fw-bold text-primary mb-3">
+              <i class="bi bi-cpu-fill me-2"></i>TechStore
+            </h5>
+            <p class="text-muted small">
+              TechStore est une boutique fictive ultra-moderne conçue comme
+              démonstrateur technique pour la présentation de projets de fin de
+              formation.
+            </p>
+          </div>
+          <div class="col-md-4 col-lg-2 offset-lg-2">
+            <h6 class="fw-bold mb-3">Plan du site</h6>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <a
+                  href="index.html"
+                  class="text-muted text-decoration-none small"
+                  >Accueil</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="produits.html"
+                  class="text-muted text-decoration-none small"
+                  >Catalogue</a
+                >
+              </li>
+              <li class="mb-2">
+                <a
+                  href="contact.html"
+                  class="text-muted text-decoration-none small"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <h6 class="fw-bold mb-3">Informations de contact</h6>
+            <p class="text-muted small mb-2">
+              <i class="bi bi-geo-alt me-2"></i> EIG Bénin, Cotonou
+            </p>
+            <p class="text-muted small mb-2">
+              <i class="bi bi-envelope me-2"></i> contact@laurentfagnihoun.dev
+            </p>
+          </div>
+        </div>
+        <hr class="border-secondary" />
+        <div class="text-center text-muted small">
+          &copy; 2026 - Laurent FAGNIHOUN • Démonstration Portfolio EIG Bénin.
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts obligatoires -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+
+    <!-- Logique JavaScript du Panier -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const emptyCartView = document.getElementById("empty-cart-view");
+        const activeCartView = document.getElementById("active-cart-view");
+        const cartItemsContainer = document.getElementById(
+          "cart-items-container",
+        );
+
+        const summarySubtotal = document.getElementById("summary-subtotal");
+        const summaryShipping = document.getElementById("summary-shipping");
+        const summaryTotal = document.getElementById("summary-total");
+
+        // 1. Charger et afficher le contenu du panier
+        function renderCart() {
+          // Récupérer le panier depuis le LocalStorage (géré par cart.js)
+          const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+          if (cart.length === 0) {
+            activeCartView.classList.add("d-none");
+            emptyCartView.classList.remove("d-none");
+            updateCartBadge(); // S'assurer que le badge navbar est synchro
+            return;
+          }
+
+          emptyCartView.classList.add("d-none");
+          activeCartView.classList.remove("d-none");
+
+          cartItemsContainer.innerHTML = "";
+          let totalAmount = 0;
+
+          cart.forEach((item) => {
+            // Trouver l'article correspondant dans notre base products.js
+            const product = products.find((p) => p.id === item.id);
+            if (!product) return;
+
+            const itemTotal = product.price * item.quantity;
+            totalAmount += itemTotal;
+
+            const itemHtml = `
+                        <div class="cart-item d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+                            <div class="d-flex align-items-center gap-3 w-100">
+                                <img src="${product.image}" alt="${product.name}" class="cart-item-img">
+                                <div class="text-truncate">
+                                    <h6 class="fw-bold mb-1 text-truncate" title="${product.name}">${product.name}</h6>
+                                    <small class="text-muted d-block">${product.category}</small>
+                                    <span class="text-primary fw-bold">${product.price} €</span>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center gap-4 w-100 w-sm-auto">
+                                <!-- Contrôleur quantité -->
+                                <div class="quantity-control d-flex align-items-center border rounded-pill p-1">
+                                    <button class="btn btn-light btn-sm rounded-circle" onclick="changeQuantity(${product.id}, -1)">
+                                        <i class="bi bi-minus"></i>
+                                    </button>
+                                    <input type="text" value="${item.quantity}" readonly>
+                                    <button class="btn btn-light btn-sm rounded-circle" onclick="changeQuantity(${product.id}, 1)">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Prix Total de l'item & suppression -->
+                                <div class="text-end d-flex align-items-center gap-3 min-w-100">
+                                    <span class="fw-bold" style="width: 80px;">${itemTotal.toFixed(2)} €</span>
+                                    <button class="btn btn-link text-danger p-0" onclick="removeFromCart(${product.id})" title="Supprimer">
+                                        <i class="bi bi-trash fs-5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+            cartItemsContainer.insertAdjacentHTML("beforeend", itemHtml);
+          });
+
+          // Mettre à jour les totaux du récapitulatif
+          summarySubtotal.textContent = `${totalAmount.toFixed(2)} €`;
+          summaryTotal.textContent = `${totalAmount.toFixed(2)} €`; // Livraison gratuite
+
+          updateCartBadge();
+        }
+
+        // 2. Modifier la quantité d'un produit (+1 ou -1)
+        window.changeQuantity = function (productId, delta) {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          const item = cart.find((i) => i.id === productId);
+
+          if (item) {
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+              // Supprimer du panier si la quantité tombe à 0
+              cart = cart.filter((i) => i.id !== productId);
+            }
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderCart();
+          }
+        };
+
+        // 3. Supprimer complètement un produit du panier
+        window.removeFromCart = function (productId) {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          cart = cart.filter((item) => item.id !== productId);
+          localStorage.setItem("cart", JSON.stringify(cart));
+          renderCart();
+        };
+
+        // 4. Vider tout le panier
+        window.clearCart = function () {
+          if (confirm("Voulez-vous vraiment vider tout votre panier ?")) {
+            localStorage.removeItem("cart");
+            renderCart();
+          }
+        };
+
+        // 5. Simulation de commande
+        window.checkout = function () {
+          alert(
+            "Commande validée ! Merci pour votre achat de démonstration sur TechStore.",
+          );
+          localStorage.removeItem("cart");
+          window.location.href = "index.html";
+        };
+
+        // Initialisation de la vue panier
+        renderCart();
+
+        // --- GESTION DU MODE SOMBRE ---
+        const themeToggle = document.getElementById("themeToggle");
+        const themeIcon = document.getElementById("themeIcon");
+        const body = document.body;
+
+        if (localStorage.getItem("theme") === "dark") {
+          body.classList.add("dark-theme");
+          themeIcon.className = "bi bi-sun-fill fs-4 text-warning";
+        }
+
+        themeToggle.addEventListener("click", () => {
+          body.classList.toggle("dark-theme");
+          if (body.classList.contains("dark-theme")) {
+            localStorage.setItem("theme", "dark");
+            themeIcon.className = "bi bi-sun-fill fs-4 text-warning";
+          } else {
+            localStorage.setItem("theme", "light");
+            themeIcon.className = "bi bi-moon-fill fs-4 text-dark";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
